@@ -1,4 +1,3 @@
-// Supabase Production Project Routing Handshakes
 const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_oD3pjw8LGY6uFblF0azYZQ_5CuGNZtL";
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -6,7 +5,6 @@ const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser = null;
 let isLoginMode = false;
 
-// Toggles Authentication Mode Between Sign Up and Login Screen States
 function toggleAuthMode() {
     isLoginMode = !isLoginMode;
     document.getElementById('auth-title').innerText = isLoginMode ? "Welcome Back" : "Create Profile";
@@ -15,7 +13,6 @@ function toggleAuthMode() {
     document.getElementById('auth-toggle').innerHTML = isLoginMode ? "New here? <span>Create an account</span>" : "Already have an account? <span>Log In</span>";
 }
 
-// Orchestrates Registration Verification and Data Submissions
 async function handleSubmit() {
     const name = document.getElementById('username').value.trim();
     const password = document.getElementById('auth-password').value;
@@ -24,7 +21,6 @@ async function handleSubmit() {
     btn.disabled = true;
 
     if (isLoginMode) {
-        // Authenticate User Credentials
         const { data, error } = await supabase.from('user_profiles').select('*').eq('username', name).eq('password_text', password).single();
         if (error || !data) { alert("Invalid account credentials. Try again."); btn.disabled = false; return; }
         enterChatroom(data);
@@ -33,7 +29,6 @@ async function handleSubmit() {
         const fileInput = document.getElementById('avatar-file');
         if (!dob) { btn.disabled = false; return alert("Birthdate required."); }
 
-        // Username Anti-Theft Lock Checks
         const { data: existingUser } = await supabase.from('user_profiles').select('username').eq('username', name).maybeSingle();
         if (existingUser) { alert("Username is already taken! Choose another one."); btn.disabled = false; return; }
 
@@ -53,7 +48,6 @@ async function handleSubmit() {
     btn.disabled = false;
 }
 
-// Launches Main Chat Panel Screen Layout
 function enterChatroom(profile) {
     currentUser = profile;
     document.getElementById('header-avatar').src = profile.avatar_url;
@@ -65,7 +59,6 @@ function enterChatroom(profile) {
     listenForMessages();
 }
 
-// Writes Text Input Packets to Database Server Storage
 async function sendMessage() {
     const input = document.getElementById('msg-input');
     const text = input.value.trim();
@@ -74,7 +67,6 @@ async function sendMessage() {
     await supabase.from('chat_messages').insert([{ text, sender_name: currentUser.username, sender_dob: currentUser.birthdate, avatar_url: currentUser.avatarUrl }]);
 }
 
-// Structural Component Generation for Arriving Message Strings
 function renderMessage(data) {
     const messagesDiv = document.getElementById('messages');
     const isOwn = currentUser && data.sender_name === currentUser.username;
@@ -96,7 +88,7 @@ function renderMessage(data) {
     messagesDiv.innerHTML += msgHTML;
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
-// Target Interceptor for Moderator Trashcan Button Clicks
+
 async function deleteMessage(id, event) {
     event.stopPropagation();
     if(confirm("Delete this message permanently?")) {
@@ -104,14 +96,12 @@ async function deleteMessage(id, event) {
     }
 }
 
-// Pulls Past Message Histories on Initialization
 async function loadExistingMessages() {
     document.getElementById('messages').innerHTML = '';
     const { data } = await supabase.from('chat_messages').select('*').order('created_at', { ascending: true });
     if (data) data.forEach(renderMessage);
 }
 
-// Socket Pipe Handlers Intercepting live DB additions/deletions
 function listenForMessages() {
     supabase.channel('room1')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat_messages' }, p => renderMessage(p.new))
@@ -122,7 +112,6 @@ function listenForMessages() {
         .subscribe();
 }
 
-// Profile Stats Metrics Lookups Mapped Natively on Name Click Actions
 async function viewUserProfile(username) {
     const { data: profile } = await supabase.from('user_profiles').select('*').eq('username', username).single();
     const { count } = await supabase.from('chat_messages').select('*', { count: 'exact', head: true }).eq('sender_name', username);
@@ -136,14 +125,12 @@ async function viewUserProfile(username) {
     openModal('profile-modal');
 }
 
-// Dispatches Profile Privacy Data Modifiers
 async function updatePrivacy(hideDob) {
     if (!currentUser) return;
     currentUser.hide_dob = hideDob;
     await supabase.from('user_profiles').update({ hide_dob: hideDob }).eq('id', currentUser.id);
 }
 
-// Swaps CSS Variable Constants dynamically
 function applyTheme(theme) {
     if (theme === 'cyberpunk') {
         document.documentElement.style.setProperty('--app-background', 'linear-gradient(135deg, #f107a3 0%, #0bf 100%)');
@@ -157,7 +144,6 @@ function applyTheme(theme) {
     }
 }
 
-// Window Pane Visibility Handlers
 function openModal(id) { document.getElementById(id).style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function closeModalOnOutsideClick(e, id) { if(e.target.id === id) closeModal(id); }
@@ -170,33 +156,25 @@ function switchTab(tab) {
 function logout() { currentUser = null; document.getElementById('setup-container').style.display = 'block'; document.getElementById('chat-container').style.display = 'none'; }
 function handleKey(e) { if (e.key === 'Enter') sendMessage(); }
 
-/* --- 3D FROSTED GLASS PARALLAX CONTROLLERS LOOKING TOWARDS CURSOR --- */
 const panels = document.querySelectorAll('.glass-panel');
 document.addEventListener('mousemove', (e) => {
-    // Calculates cursor distance offsets relative to screen center coordinates
-    const xAxis = (window.innerWidth / 2 - e.clientX) / 15;
-    const yAxis = (window.innerHeight / 2 - e.clientY) / 15;
-    panels.forEach(p => {
-        p.style.transform = `rotateY(${-xAxis}deg) rotateX(${yAxis}deg)`;
-    });
+    const xAxis = (window.innerWidth / 2 - e.clientX) / 25;
+    const yAxis = (window.innerHeight / 2 - e.clientY) / 25;
+    panels.forEach(p => { p.style.transform = `rotateY(${-xAxis}deg) rotateX(${yAxis}deg)`; });
 });
-/* --- CURSOR REPELLING DYNAMIC DOTS ENGINE BACKGROUND CANVAS --- */
+
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [], mouse = { x: null, y: null, radius: 140 };
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth; 
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     particles = [];
     for (let i = 0; i < (canvas.width * canvas.height) / 8000; i++) {
         particles.push({
-            x: Math.random() * canvas.width, 
-            y: Math.random() * canvas.height,
-            baseX: Math.random() * canvas.width, 
-            baseY: Math.random() * canvas.height,
-            size: Math.random() * 2.5 + 1, 
-            density: (Math.random() * 25) + 12
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            baseX: Math.random() * canvas.width, baseY: Math.random() * canvas.height,
+            size: Math.random() * 2.5 + 1, density: (Math.random() * 25) + 12
         });
     }
 }
@@ -206,25 +184,15 @@ function animate() {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
     particles.forEach(p => {
         let dx = mouse.x - p.x, dy = mouse.y - p.y, dist = Math.hypot(dx, dy);
-        // If mouse is close, push particle points away smoothly
         if (dist < mouse.radius) {
             let force = (mouse.radius - dist) / mouse.radius;
-            p.x -= (dx / dist) * force * p.density * 0.5; 
-            p.y -= (dy / dist) * force * p.density * 0.5;
-        } else { 
-            // Return to baseline coordinate grid anchors when mouse leaves proximity
-            p.x += (p.baseX - p.x) / 15; 
-            p.y += (p.baseY - p.y) / 15; 
-        }
-        ctx.beginPath(); 
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); 
-        ctx.fill();
+            p.x -= (dx / dist) * force * p.density * 0.5; p.y -= (dy / dist) * force * p.density * 0.5;
+        } else { p.x += (p.baseX - p.x) / 15; p.y += (p.baseY - p.y) / 15; }
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
     });
     requestAnimationFrame(animate);
 }
-
 window.addEventListener('resize', resizeCanvas);
 document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 document.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-resizeCanvas(); 
-animate();
+resizeCanvas(); animate();
