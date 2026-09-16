@@ -7,7 +7,7 @@ let currentUser = null;
 let isLoginMode = false;
 
 // Toggles Authentication Mode Between Sign Up and Login Screen States
-function toggleAuthMode() {
+window.toggleAuthMode = function() {
     isLoginMode = !isLoginMode;
     document.getElementById('auth-title').innerText = isLoginMode ? "Welcome Back" : "Create Profile";
     document.getElementById('register-fields').style.display = isLoginMode ? "none" : "block";
@@ -16,7 +16,7 @@ function toggleAuthMode() {
 }
 
 // Orchestrates Registration Verification and Data Submissions
-async function handleSubmit() {
+window.handleSubmit = async function() {
     const name = document.getElementById('username').value.trim();
     const password = document.getElementById('auth-password').value;
     const btn = document.getElementById('auth-btn');
@@ -66,7 +66,7 @@ function enterChatroom(profile) {
 }
 
 // Writes Text Input Packets to Database Server Storage
-async function sendMessage() {
+window.sendMessage = async function() {
     const input = document.getElementById('msg-input');
     const text = input.value.trim();
     if (!text || !currentUser) return;
@@ -80,6 +80,7 @@ function renderMessage(data) {
     const isOwn = currentUser && data.sender_name === currentUser.username;
     const isSenderMod = data.sender_name === 'Steezy';
     const isCurrentMod = currentUser && currentUser.username === 'Steezy';
+    
     const msgHTML = `
         <div class="message ${isOwn ? 'own-message' : ''}" id="msg-${data.id}">
             <img class="avatar" src="${data.avatar_url}" alt="">
@@ -95,9 +96,8 @@ function renderMessage(data) {
     messagesDiv.innerHTML += msgHTML;
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
-
 // Target Interceptor for Moderator Trashcan Button Clicks
-async function deleteMessage(id, event) {
+window.deleteMessage = async function(id, event) {
     event.stopPropagation();
     if(confirm("Delete this message permanently?")) {
         await supabase.from('chat_messages').delete().eq('id', id);
@@ -123,7 +123,7 @@ function listenForMessages() {
 }
 
 // Profile Stats Metrics Lookups Mapped Natively on Name Click Actions
-async function viewUserProfile(username) {
+window.viewUserProfile = async function(username) {
     const { data: profile } = await supabase.from('user_profiles').select('*').eq('username', username).single();
     const { count } = await supabase.from('chat_messages').select('*', { count: 'exact', head: true }).eq('sender_name', username);
     if (!profile) return;
@@ -137,14 +137,14 @@ async function viewUserProfile(username) {
 }
 
 // Dispatches Profile Privacy Data Modifiers
-async function updatePrivacy(hideDob) {
+window.updatePrivacy = async function(hideDob) {
     if (!currentUser) return;
     currentUser.hide_dob = hideDob;
-    await supabase.from('user_profiles').update({ hide_dob: hideDob }).eq('id', currentUser.id);
+    await supabase.from('user_profiles').update({ hide_dob: hideDob }).eq('username', currentUser.username);
 }
 
 // Swaps CSS Variable Constants dynamically
-function applyTheme(theme) {
+window.applyTheme = function(theme) {
     if (theme === 'cyberpunk') {
         document.documentElement.style.setProperty('--app-background', 'linear-gradient(135deg, #f107a3 0%, #0bf 100%)');
         document.documentElement.style.setProperty('--primary', '#ff007f');
@@ -158,17 +158,18 @@ function applyTheme(theme) {
 }
 
 // Window Pane Visibility Handlers
-function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function closeModalOnOutsideClick(e, id) { if(e.target.id === id) closeModal(id); }
-function switchTab(tab) {
+window.openModal = function(id) { document.getElementById(id).style.display = 'flex'; }
+window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; }
+window.closeModalOnOutsideClick = function(e, id) { if(e.target.id === id) closeModal(id); }
+window.switchTab = function(tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById(`tab-${tab}`).classList.add('active');
     document.getElementById(`panel-${tab}`).classList.add('active');
 }
-function logout() { currentUser = null; document.getElementById('setup-container').style.display = 'block'; document.getElementById('chat-container').style.display = 'none'; }
-function handleKey(e) { if (e.key === 'Enter') sendMessage(); }
+window.logout = function() { currentUser = null; document.getElementById('setup-container').style.display = 'block'; document.getElementById('chat-container').style.display = 'none'; }
+window.handleKey = function(e) { if (e.key === 'Enter') sendMessage(); }
+
 /* --- 3D FROSTED GLASS PARALLAX CONTROLLERS LOOKING TOWARDS CURSOR --- */
 const panels = document.querySelectorAll('.glass-panel');
 document.addEventListener('mousemove', (e) => {
@@ -179,7 +180,6 @@ document.addEventListener('mousemove', (e) => {
         p.style.transform = `rotateY(${-xAxis}deg) rotateX(${yAxis}deg)`;
     });
 });
-
 /* --- CURSOR REPELLING DYNAMIC DOTS ENGINE BACKGROUND CANVAS --- */
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
