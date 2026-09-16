@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Sites Secured Chatroom Pro</title>
-    <!-- Links your custom modular layout sheets safely -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Target surface for your cursor-reactive star dots background -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Main Registration and Profile Portal Display Panel -->
+    <!-- Sign Up & Login Form Container -->
     <div id="setup-container" class="glass-panel">
         <h2 id="auth-title">Create Profile</h2>
         <div class="form-group">
@@ -37,7 +34,7 @@
         <p class="auth-toggle-text" id="auth-toggle" onclick="toggleAuthMode()">Already have an account? <span>Log In</span></p>
     </div>
 
-    <!-- Protected Global Web Realtime Messaging Stream Board -->
+    <!-- Active Chat Feed Screen -->
     <div id="chat-container" class="glass-panel">
         <div class="chat-header">
             <div class="user-info">
@@ -51,13 +48,12 @@
             <input type="text" id="msg-input" placeholder="Type a message..." onkeypress="handleKey(event)">
             <button class="action-btn send-btn" onclick="sendMessage()">Send</button>
         </div>
-        <!-- Settings Engine Gear Overlay Trigger -->
         <div class="settings-trigger" onclick="openModal('settings-modal')">
             <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73-1.69-.98l-.38-2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
         </div>
     </div>
 
-    <!-- Metric Data Inspector Panel (Triggered by Profile Click) -->
+    <!-- User Profile Details Modal Info Panel -->
     <div id="profile-modal" class="modal" onclick="closeModalOnOutsideClick(event, 'profile-modal')">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('profile-modal')">&times;</span>
@@ -69,7 +65,7 @@
         </div>
     </div>
 
-    <!-- Theme Selection and Birthday Hide Toggle Menu Panel -->
+    <!-- Configuration Settings & Privacy Panel -->
     <div id="settings-modal" class="modal" onclick="closeModalOnOutsideClick(event, 'settings-modal')">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('settings-modal')">&times;</span>
@@ -88,15 +84,14 @@
                 </div>
             </div>
             <div id="panel-privacy" class="tab-panel">
-                <div class="form-group privacy-toggle">
-                    <label>Hide Birthday & Age</label>
-                    <input type="checkbox" id="hide-dob-checkbox" onchange="updatePrivacy(this.checked)">
+                <div class="form-group" style="display:flex; align-items:center; justify-content:space-between; margin-top:10px;">
+                    <label style="margin:0;">Hide Birthday & Age</label>
+                    <input type="checkbox" id="hide-dob-checkbox" style="width:20px; height:20px;" onchange="updatePrivacy(this.checked)">
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mounts production data stream handlers and core scripts -->
     <script src="https://jsdelivr.net"></script>
     <script src="app.js"></script>
 </body>
