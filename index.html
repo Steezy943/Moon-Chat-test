@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secured Chatroom Pro</title>
-    <!-- Linking our external styling script -->
+    <title>Google Sites Secured Chatroom Pro</title>
+    <!-- Links your custom modular layout sheets safely -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Solid Black Cursor-Repelling Particle Canvas -->
+    <!-- Target surface for your cursor-reactive star dots background -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- 3D Glass Profile Creation / Login Panel -->
+    <!-- Main Registration and Profile Portal Display Panel -->
     <div id="setup-container" class="glass-panel">
         <h2 id="auth-title">Create Profile</h2>
         <div class="form-group">
@@ -37,11 +37,11 @@
         <p class="auth-toggle-text" id="auth-toggle" onclick="toggleAuthMode()">Already have an account? <span>Log In</span></p>
     </div>
 
-    <!-- 3D Glass Messaging Hub -->
+    <!-- Protected Global Web Realtime Messaging Stream Board -->
     <div id="chat-container" class="glass-panel">
         <div class="chat-header">
             <div class="user-info">
-                <img id="header-avatar" src="" alt="Avatar">
+                <img id="header-avatar" src="" alt="">
                 <strong id="header-name">Global Chat</strong>
             </div>
             <button class="action-btn leave-btn" onclick="logout()">Logout</button>
@@ -51,25 +51,25 @@
             <input type="text" id="msg-input" placeholder="Type a message..." onkeypress="handleKey(event)">
             <button class="action-btn send-btn" onclick="sendMessage()">Send</button>
         </div>
-        <!-- Settings Gear Icon Box -->
+        <!-- Settings Engine Gear Overlay Trigger -->
         <div class="settings-trigger" onclick="openModal('settings-modal')">
             <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73-1.69-.98l-.38-2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
         </div>
     </div>
 
-    <!-- User Profile Stats Inspector Modal Window -->
+    <!-- Metric Data Inspector Panel (Triggered by Profile Click) -->
     <div id="profile-modal" class="modal" onclick="closeModalOnOutsideClick(event, 'profile-modal')">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('profile-modal')">&times;</span>
-            <img id="prof-modal-avatar" class="modal-avatar" src="" alt="Avatar">
+            <img id="prof-modal-avatar" class="modal-avatar" src="" alt="">
             <h3 id="prof-modal-title" class="modal-title">User Profile</h3>
-            <div class="stat-row"><span>Status:</span><span id="prof-modal-role">User</span></div>
+            <div class="stat-row"><span>Status:</span><span id="prof-modal-role" style="font-weight:700;">User</span></div>
             <div class="stat-row"><span>Total Messages:</span><span id="prof-modal-count">0</span></div>
             <div class="stat-row"><span>Birth Date:</span><span id="prof-modal-dob">Hidden</span></div>
         </div>
     </div>
 
-    <!-- Global App Settings & Privacy Modal Window -->
+    <!-- Theme Selection and Birthday Hide Toggle Menu Panel -->
     <div id="settings-modal" class="modal" onclick="closeModalOnOutsideClick(event, 'settings-modal')">
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal('settings-modal')">&times;</span>
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <!-- Pulling in Supabase Production SDK and our application engine logic -->
+    <!-- Mounts production data stream handlers and core scripts -->
     <script src="https://jsdelivr.net"></script>
     <script src="app.js"></script>
 </body>
